@@ -2,13 +2,14 @@ package com.example.sebas.eliminar_roomtesting.DB.Model
 
 import android.arch.persistence.room.ColumnInfo
 import android.arch.persistence.room.Entity
+import android.arch.persistence.room.Index
 import android.arch.persistence.room.PrimaryKey
 
 /**
  * Created by sebas on 1/18/18.
  */
 
-@Entity(tableName = "user")
+@Entity(tableName = "user", indices = arrayOf(Index(value = "first_name", name = "name"), Index(value = "sex", name = "sex")))
 public class User {
 
     @PrimaryKey(autoGenerate = true)
@@ -19,6 +20,9 @@ public class User {
 
     @ColumnInfo(name = "last_name")
     private var lastName: String = ""
+
+    @ColumnInfo(name = "sex")
+    private var sex: String = ""
 
     @ColumnInfo(name = "age")
     private var age: Int? = null;
@@ -47,8 +51,15 @@ public class User {
         this.lastName = lastName
     }
 
+    open fun setSex(sex: String) {
+        this.sex = sex
+    }
+
+    open fun getSex(): String? {
+        return sex
+    }
     open fun getAge(): Int? {
-        return age;
+        return age
     }
 
     open fun setAge(age: Int?) {
