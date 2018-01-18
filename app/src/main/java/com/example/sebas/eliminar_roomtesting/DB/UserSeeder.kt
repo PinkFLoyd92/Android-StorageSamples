@@ -12,6 +12,7 @@ public class UserSeeder {
     companion object {
         var listUsers : List<User> = emptyList<User>()
         fun seed(userDao: UserDao){
+            listUsers = userDao.getAll()
             delete(userDao)
             for (a in 1..10){
                 val user : User = User()

@@ -16,8 +16,8 @@ import com.example.sebas.eliminar_roomtesting.DB.Model.User
     @Query("SELECT * FROM user")
     fun getAll() : List<User>;
 
-//    @Query("SELECT * FROM user where first_name LIKE  :firstName AND last_name LIKE :lastName")
-//    fun findByName(firstName: String , lastName:String ) : List<User>;
+//    @Query("SELECT * FROM user where first_name LIKE  :arg0 AND last_name LIKE :arg1")
+//    fun findByName(first_name: String , last_name:String ) : List<User>
 
     @Query("SELECT COUNT(*) from user")
     fun countUsers() : Int
@@ -27,4 +27,10 @@ import com.example.sebas.eliminar_roomtesting.DB.Model.User
 
     @Delete
     fun delete(user: User)
+
+    @Query("SELECT * from user where first_name LIKE :arg0")
+    fun getUsersByName(first_name: String): List<User>
+
+    @Query("SELECT * from user where sex=:arg0")
+    fun getUsersByGender(sex: String): List<User>
 }

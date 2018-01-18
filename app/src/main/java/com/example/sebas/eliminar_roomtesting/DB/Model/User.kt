@@ -66,5 +66,9 @@ public class User {
         this.age = age
     }
 
+    override fun toString(): String {
+        return "User firstName = '$firstName', lastName='$lastName', sex='$sex', age=$age)"
+    }
+
 }
 
