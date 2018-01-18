@@ -14,7 +14,7 @@ import com.example.sebas.eliminar_roomtesting.DB.Model.User
 @Dao interface UserDao {
 
     @Query("SELECT * FROM user")
-    fun getAll() : List<User>;
+    fun getAll() : List<User>
 
 //    @Query("SELECT * FROM user where first_name LIKE  :arg0 AND last_name LIKE :arg1")
 //    fun findByName(first_name: String , last_name:String ) : List<User>
@@ -28,9 +28,15 @@ import com.example.sebas.eliminar_roomtesting.DB.Model.User
     @Delete
     fun delete(user: User)
 
+    @Delete
+    fun deleteAll(users: List<User>)
+
     @Query("SELECT * from user where first_name LIKE :arg0")
     fun getUsersByName(first_name: String): List<User>
 
     @Query("SELECT * from user where sex=:arg0")
     fun getUsersByGender(sex: String): List<User>
+
+    @Query("SELECT COUNT(*) from user where sex=:arg0")
+    fun countUsersByGender(sex: String): Int
 }

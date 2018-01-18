@@ -6,7 +6,6 @@ import android.os.Bundle
 import android.util.Log
 import android.view.View
 import com.example.sebas.eliminar_roomtesting.DB.AppDatabase
-import com.example.sebas.eliminar_roomtesting.DB.AppModule
 import com.example.sebas.eliminar_roomtesting.DB.Model.User
 import com.example.sebas.eliminar_roomtesting.DB.UserSeeder
 
@@ -21,15 +20,13 @@ class MainActivity : AppCompatActivity() {
         //appDatabase = appDB?.providesAppDatabase(this)
         db = AppDatabase.getAppDatabase(this)
         UserSeeder.seed(db!!.userDao())
+        val query_genderMale = AsyncQueryCountUsersGender(db!!)
+        query_genderMale.execute("male")
+        val query_genderFemale = AsyncQueryCountUsersGender(db!!)
+        query_genderFemale.execute("female")
 
-        val query_gender1 = AsyncQueryGetUsersByGender(db!!)
-        query_gender1.execute("male")
-
-        val query_gender2 = AsyncQueryGetUsersByGender(db!!)
-        query_gender2.execute("female")
-
-        val query_gender3 = AsyncQueryGetUsersByGender(db!!)
-        query_gender3.execute("")
+        val query_genderOther = AsyncQueryCountUsersGender(db!!)
+        query_genderOther.execute("non-binary")
 
         val query_name1 = AsyncQueryGetUsersByName(db!!)
         query_name1.execute("sebas")
@@ -41,7 +38,22 @@ class MainActivity : AppCompatActivity() {
     }
 
 
+    inner class AsyncQueryCountUsersGender:AsyncTask<String, String, Int> {
+        var database : AppDatabase? = null
 
+        constructor(database: AppDatabase) {
+            this.database = database
+        }
+
+        override fun doInBackground(vararg p0: String?): Int {
+            Log.d("ASYNC TASK GENDER: ", p0[0].toString())
+            return db?.userDao()?.countUsersByGender(p0[0] as String) as Int
+        }
+
+        override fun onPostExecute(result: Int?) {
+            Log.d("GENDER: ", result.toString())
+        }
+    }
 
     inner class AsyncQueryGetUsersByGender : AsyncTask<String, String, List<User>> {
         var database : AppDatabase? = null
