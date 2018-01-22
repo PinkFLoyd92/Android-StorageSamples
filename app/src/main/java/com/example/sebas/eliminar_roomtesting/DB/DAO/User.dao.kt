@@ -4,6 +4,7 @@ import android.arch.persistence.room.Dao
 import android.arch.persistence.room.Delete
 import android.arch.persistence.room.Insert
 import android.arch.persistence.room.Query
+import android.database.Cursor
 import com.example.sebas.eliminar_roomtesting.DB.Model.User
 
 
@@ -15,6 +16,9 @@ import com.example.sebas.eliminar_roomtesting.DB.Model.User
 
     @Query("SELECT * FROM user")
     fun getAll() : List<User>
+
+    @Query("SELECT first_name,sex, count(sex) from user group by sex")
+    fun getGroupedUsers() : Cursor
 
 //    @Query("SELECT * FROM user where first_name LIKE  :arg0 AND last_name LIKE :arg1")
 //    fun findByName(first_name: String , last_name:String ) : List<User>

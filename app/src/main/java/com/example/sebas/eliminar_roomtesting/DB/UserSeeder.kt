@@ -4,6 +4,7 @@ import android.arch.persistence.room.RoomDatabase
 import android.util.Log
 import com.example.sebas.eliminar_roomtesting.DB.DAO.UserDao
 import com.example.sebas.eliminar_roomtesting.DB.Model.User
+import java.util.*
 
 /**
  * Created by sebas on 1/18/18.
@@ -38,15 +39,19 @@ public class UserSeeder {
         }
         fun delete(userDao: UserDao){
             userDao.deleteAll(listUsers)
-            listUsers.forEachIndexed({
-                index, user
-                        ->
-                run {
-                    Log.d("deleting...", user.toString())
-                    (listUsers as ArrayList<User>).removeAt(index)
-                    userDao.delete(user)
-                }
-            })
+            try {
+                listUsers.forEachIndexed({
+                    index, user
+                    ->
+                    run {
+                        Log.d("deleting...", user.toString())
+                        (listUsers as ArrayList<User>).removeAt(index)
+                        userDao.delete(user)
+                    }
+                })
+            }catch(e: ConcurrentModificationException) {
+                Log.d("ERROR", e.toString())
+            }
         }
     }
 

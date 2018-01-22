@@ -1,5 +1,6 @@
 package com.example.sebas.eliminar_roomtesting
 
+import android.database.Cursor
 import android.os.AsyncTask
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
@@ -10,16 +11,14 @@ import com.example.sebas.eliminar_roomtesting.DB.Model.User
 import com.example.sebas.eliminar_roomtesting.DB.UserSeeder
 
 class MainActivity : AppCompatActivity() {
-    // open var appDB : AppModule? = null
-    // open var appDatabase : AppDatabase? = null
     open var db : AppDatabase? = null
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
-        // appDB = AppModule(this)
-        //appDatabase = appDB?.providesAppDatabase(this)
-        db = AppDatabase.getAppDatabase(this)
+        db = AppDatabase.getAppDatabase(this.applicationContext)
         UserSeeder.seed(db!!.userDao())
+
+/*
         val query_genderMale = AsyncQueryCountUsersGender(db!!)
         query_genderMale.execute("male")
         val query_genderFemale = AsyncQueryCountUsersGender(db!!)
@@ -27,9 +26,13 @@ class MainActivity : AppCompatActivity() {
 
         val query_genderOther = AsyncQueryCountUsersGender(db!!)
         query_genderOther.execute("non-binary")
+*/
 
         val query_name1 = AsyncQueryGetUsersByName(db!!)
         query_name1.execute("sebas")
+
+        val query_groupbySex1 = AsyncQueryGroupBySex(db!!)
+        query_groupbySex1.execute()
     }
 
     fun create_user(view : View){
@@ -37,6 +40,38 @@ class MainActivity : AppCompatActivity() {
         Log.d("SUBMIT", "Creating user")
     }
 
+
+    inner class AsyncQueryGroupBySex:AsyncTask<String, String, Cursor> {
+        var database : AppDatabase? = null
+
+        constructor(database: AppDatabase) {
+            this.database = database
+        }
+
+        override fun doInBackground(vararg p0: String?): Cursor {
+            return db?.userDao()?.getGroupedUsers() as Cursor
+        }
+
+        override fun onPostExecute(result: Cursor?) {
+            try {
+                if(result!!.moveToFirst()){
+                    while (result != null) {
+                        // do what you need with the cursor here
+                        Log.d("SEX TASK", result!!.getInt(result!!.getColumnIndex("count(sex)")).toString()
+/*                                + " NAME: "
+                                + result!!.getString(result!!.getColumnIndex("first_name"))*/
+                                + " SEXO: "
+                                + result!!.getString(result!!.getColumnIndex("sex"))
+                        )
+                        // Log.d("SEX name", result!!.getString(result!!.getColumnIndex("first_name")))
+                        result!!.moveToNext()
+                    }
+                }
+            } catch(e: Exception) {
+                Log.d("excepcion..", e.message)
+            }
+        }
+    }
 
     inner class AsyncQueryCountUsersGender:AsyncTask<String, String, Int> {
         var database : AppDatabase? = null
