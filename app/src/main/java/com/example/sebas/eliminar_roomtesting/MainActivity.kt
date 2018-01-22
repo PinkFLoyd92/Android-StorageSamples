@@ -62,6 +62,8 @@ class MainActivity : AppCompatActivity() {
                                 + result!!.getString(result!!.getColumnIndex("first_name"))*/
                                 + " SEXO: "
                                 + result!!.getString(result!!.getColumnIndex("sex"))
+                                + " BIRTHDAY: "
+                                + result!!.getString(result!!.getColumnIndex("birth_date"))
                         )
                         // Log.d("SEX name", result!!.getString(result!!.getColumnIndex("first_name")))
                         result!!.moveToNext()

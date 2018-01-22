@@ -17,7 +17,7 @@ import com.example.sebas.eliminar_roomtesting.DB.Model.User
     @Query("SELECT * FROM user")
     fun getAll() : List<User>
 
-    @Query("SELECT first_name,sex, count(sex) from user group by sex")
+    @Query("SELECT first_name,sex, count(sex), birth_date from user group by sex")
     fun getGroupedUsers() : Cursor
 
 //    @Query("SELECT * FROM user where first_name LIKE  :arg0 AND last_name LIKE :arg1")

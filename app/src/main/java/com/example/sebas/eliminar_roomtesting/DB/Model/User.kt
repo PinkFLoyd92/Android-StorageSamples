@@ -1,9 +1,8 @@
 package com.example.sebas.eliminar_roomtesting.DB.Model
 
-import android.arch.persistence.room.ColumnInfo
-import android.arch.persistence.room.Entity
-import android.arch.persistence.room.Index
-import android.arch.persistence.room.PrimaryKey
+import android.arch.persistence.room.*
+import com.example.sebas.eliminar_roomtesting.DB.type_converters.DateConverter
+import java.util.*
 
 /**
  * Created by sebas on 1/18/18.
@@ -27,42 +26,54 @@ public class User {
     @ColumnInfo(name = "age")
     private var age: Int? = null;
 
-    open fun getUid(): Int? {
+    @ColumnInfo(name = "birth_date")
+    var birthDate: Date? = null
+
+    fun getUid(): Int? {
         return uid;
     }
 
-    open fun setUid(uid : Int){
+    fun setUid(uid : Int){
         this.uid = uid
     }
 
-    open fun getFirstName(): String? {
+    fun getFirstName(): String? {
         return firstName;
     }
 
-    open fun setFirstName(firstName: String) {
+    fun setFirstName(firstName: String) {
         this.firstName = firstName
     }
 
-    open fun getLastName() : String {
+    fun getLastName() : String {
         return this.lastName
     }
 
-    open fun setLastName(lastName : String) {
+    fun setLastName(lastName : String) {
         this.lastName = lastName
     }
 
-    open fun setSex(sex: String) {
+    fun setSex(sex: String) {
         this.sex = sex
     }
 
-    open fun getSex(): String? {
+    fun getSex(): String? {
         return sex
     }
-    open fun getAge(): Int? {
+
+    fun getBirthDay() : Date? {
+        return birthDate
+    }
+
+    fun setBirthday(birth_date: Date) {
+        this.birthDate = birth_date
+    }
+
+    fun getAge(): Int? {
         return age
     }
 
-    open fun setAge(age: Int?) {
+    fun setAge(age: Int?) {
         this.age = age
     }
 
